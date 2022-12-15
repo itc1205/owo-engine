@@ -8,7 +8,7 @@ Game::Game() {
   if (!init_game()) {
     exit(1);
   }
-  TextureCounter = 0;
+  TextureIndex = -1;
 }
 
 bool Game::init_game() {
@@ -70,36 +70,61 @@ bool Game::create_renderer() {
     return false;
   }
   SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  
+
   return true;
 }
 
-void Game::setFont(TTF_Font* font) {
-    gFont = font;
+void Game::setFont(TTF_Font *font) { gFont = font; }
+
+SDL_Renderer *Game::getRenderer() { return gRenderer; }
+
+TTF_Font *Game::getFont() { return gFont; }
+
+bool Game::addTexture(mTexture *texture) {
+  if (TextureIndex > 20) {
+    return;
+  }
+
+  TextureIndex++;
+  texturePool[TextureIndex] = texture;
 }
 
-SDL_Renderer *Game::getRenderer() {
-    return gRenderer;
+mTexture *Game::getTexture(int index) {
+  if (index > TextureIndex) {
+    return nullptr;
+  }
+  return texturePool[index];
 }
 
-TTF_Font *Game::getFont() {
-    return gFont;
+void Game::clearTexturePool() {
+  for (int i = 0; i < TextureIndex; i++) {
+    delete texturePool[i];
+    texturePool[i] = nullptr;
+  }
+  TextureIndex = -1;
 }
 
-void Game::addTexture(mTexture *texture) {
-    if (TextureCounter > 20) {
-        return;
-    }
+void Game::start() {
+  isRunning = true;
+  while (isRunning) {
+    proceed_events();
+    begin_loop();
+    render_all();
+    end_loop();
+  } 
+}
+
+void Game::proceed_events() {
+  while (SDL_PollEvent(&e)) {
+    close_game_event_handler(e);
     
-    texturePool[TextureCounter] = texture;
-    TextureCounter++;
+  }
 }
 
-mTexture* Game::getTexture(int index) {
-    if (index > TextureCounter) {
-        return nullptr;
-    }
-    return texturePool[index];
+void Game::close_game_event_handler(SDL_Event &e) {
+  if (e.type == SDL_QUIT) {
+    isRunning = false;
+  }
 }
 
 Game::~Game() {
@@ -111,10 +136,8 @@ Game::~Game() {
   SDL_DestroyWindow(gWindow);
   gWindow = nullptr;
   gRenderer = nullptr;
-  
-  for (int i = 0; i < TextureCounter; i++) {
-    delete texturePool[i];
-  }
+
+  clearTexturePool();
 
   // Quit SDL subsystems
   Mix_Quit();
