@@ -80,19 +80,16 @@ SDL_Renderer *Game::getRenderer() { return gRenderer; }
 
 TTF_Font *Game::getFont() { return gFont; }
 
-bool Game::addTexture(mTexture *texture) {
-  if (TextureIndex > 20) {
-    return;
-  }
-
-  TextureIndex++;
-  texturePool[TextureIndex] = texture;
+void Game::addTexture(mTexture *texture) {
+  texturePool.push_back(texture);
 }
 
 mTexture *Game::getTexture(int index) {
-  if (index > TextureIndex) {
+  
+  if (index > texturePool.size()) {
     return nullptr;
   }
+
   return texturePool[index];
 }
 
@@ -117,15 +114,29 @@ void Game::start() {
 void Game::proceed_events() {
   while (SDL_PollEvent(&e)) {
     close_game_event_handler(e);
-    
   }
 }
+
+void Game::begin_loop() {
+  // TODO: some cleanup before rendering
+}
+
+void Game::render_all() {
+  // TODO: render everything in texture/objects pool
+}
+
+void Game::end_loop() {
+  // TODO: flush everything to renderer
+}
+
 
 void Game::close_game_event_handler(SDL_Event &e) {
   if (e.type == SDL_QUIT) {
     isRunning = false;
   }
 }
+
+
 
 Game::~Game() {
   printf("Exiting...\n");
