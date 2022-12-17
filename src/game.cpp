@@ -1,8 +1,12 @@
 #include "../headers/game.hpp"
 
+
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+#include <stdio.h>
+#include <string>
 
 Game::Game() {
   if (!init_game()) {
@@ -105,8 +109,13 @@ void Game::start() {
   isRunning = true;
   while (isRunning) {
     proceed_events();
-    begin_loop();
-    render_all();
+    
+	begin_loop();
+   
+	SDL_RenderClear(gRenderer);
+    
+	render_all();
+	
     end_loop();
   } 
 }
@@ -119,6 +128,7 @@ void Game::proceed_events() {
 
 void Game::begin_loop() {
   // TODO: some cleanup before rendering
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
 void Game::render_all() {
@@ -127,6 +137,7 @@ void Game::render_all() {
 
 void Game::end_loop() {
   // TODO: flush everything to renderer
+  SDL_RenderPresent(gRenderer);
 }
 
 
@@ -135,9 +146,6 @@ void Game::close_game_event_handler(SDL_Event &e) {
     isRunning = false;
   }
 }
-
-
-
 Game::~Game() {
   printf("Exiting...\n");
   // Destroy window

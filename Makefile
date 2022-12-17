@@ -1,4 +1,4 @@
-CC = g++
+CC =g++
 
 OBJS = main.cpp src/game.cpp src/texture.cpp src/timer.cpp
 

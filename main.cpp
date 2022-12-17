@@ -1,3 +1,4 @@
+
 #include "headers/game.hpp"
 #include "headers/texture.hpp"
 #include "headers/timer.hpp"
@@ -42,14 +43,13 @@ int main(int argc, char const *argv[]) {
         isRunning = false;
       }
     }
-    SDL_SetRenderDrawColor(game.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderClear(game.getRenderer());
+    
 
     mTexture *font = game.getTexture(0);
     font->render((SCREEN_WIDTH - font->getWidth()) / 2,
                  (SCREEN_HEIGHT - font->getHeight()) - 28);
 
-    SDL_RenderPresent(game.getRenderer());
+    
   }
 
   return 0;
