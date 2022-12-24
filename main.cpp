@@ -2,6 +2,7 @@
 #include "headers/game.hpp"
 #include "headers/texture.hpp"
 #include "headers/timer.hpp"
+#include "headers/entity.hpp"
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
@@ -51,6 +52,6 @@ int main(int argc, char const *argv[]) {
 
     
   }
-
+  
   return 0;
 }

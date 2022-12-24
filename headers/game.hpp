@@ -1,6 +1,7 @@
 #pragma once
 
 #include "texture.hpp"
+#include "entity.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
