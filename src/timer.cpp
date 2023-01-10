@@ -43,3 +43,7 @@ Uint32 mTimer::getTicks() {
 
   return 0;
 }
+
+mTimer::~mTimer() {
+  
+}

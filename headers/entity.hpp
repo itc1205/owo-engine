@@ -3,39 +3,25 @@
 #include "texture.hpp"
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_video.h>
 
-#include <functional>
-#include <vector>
+class Entity {
+private:
+  int cordX;
+  int cordY;
+
+  mTexture *gTexture;
+
+public:
+  Entity();
+  ~Entity();
+  
 
 
+  int GetCordX() { return cordX; }
+  int GetCordY() { return cordY; }
+  void render_handler(SDL_Renderer* gRenderer);
+  void event_handler(SDL_Event &e);
 
-class entity
-{
-    private:
-        int cordX = 0;
-        int cordY = 0;
-
-        mTexture *mTexture;
-    
-    public:
-        int GetCordX()
-        {
-            return cordX;
-        }
-        int GetCordY()
-        {
-            return cordY;
-        }
-        void draw()
-        {
-
-        }
-        void move()
-        {
-            
-        }
-
+  void setTexture(mTexture* nTexture);
 
 };

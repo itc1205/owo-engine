@@ -2,6 +2,10 @@
 
 #include "texture.hpp"
 #include "entity.hpp"
+#include "memory.hpp"
+
+#include <string>
+#include <stdio.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -28,15 +32,16 @@ public:
   void start();
 
   void setFont(TTF_Font *font);
-  void addTexture(mTexture *texture);
+  int createTexture(std::string path);
+
+  
 
   void addEventHandler(__EV_CB*);
   void addRenderingHandler(__RN_CB*);
 
   mTexture *getTexture(int index);
-
   SDL_Renderer *getRenderer();
-  TTF_Font *getFont();
+  TTF_Font *getFont(int index);
 
 private:
   
@@ -60,10 +65,9 @@ private:
   std::vector<__EV_CB*> event_handlers;
   std::vector<__RN_CB*> render_handlers;
 
-  std::vector<mTexture*> texturePool;
-
   SDL_Event e;
 
+  Memory _memory;
 
   SDL_Renderer *gRenderer;
   TTF_Font *gFont;
